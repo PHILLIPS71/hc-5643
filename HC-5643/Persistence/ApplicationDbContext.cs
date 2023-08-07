@@ -1,23 +1,24 @@
-﻿using HC_5643.Persistence.Entities;
+﻿using HC_5643.Domain.Objects;
 using Microsoft.EntityFrameworkCore;
 
-namespace HC_5643.Persistence
+namespace HC_5643.Persistence;
+
+public class ApplicationDbContext : DbContext
 {
-    public class ApplicationDbContext : DbContext
+    public ApplicationDbContext(DbContextOptions options)
+        : base(options)
     {
-        public ApplicationDbContext(DbContextOptions options)
-            : base(options)
-        {
-        }
-
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-            builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
-        }
-
-        public DbSet<FileSystemNode> FileSystemNodes => Set<FileSystemNode>();
-        public DbSet<FileSystemFile> FileSystemFiles => Set<FileSystemFile>();
-        public DbSet<FileSystemDirectory> FileSystemDirectories => Set<FileSystemDirectory>();
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+    }
+
+    public DbSet<Library> Libraries => Set<Library>();
+
+    public DbSet<FileSystemEntry> Entries => Set<FileSystemEntry>();
+    public DbSet<FileSystemFile> Files => Set<FileSystemFile>();
+    public DbSet<FileSystemDirectory> Directories => Set<FileSystemDirectory>();
 }

@@ -1,16 +1,15 @@
-﻿using HC_5643.Persistence.Entities;
+﻿using HC_5643.Domain.Objects;
+using HC_5643.Domain.Values;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace HC_5643.Persistence.Configurations
+namespace HC_5643.Persistence.Configurations;
+
+public class FileSystemFileConfiguration : IEntityTypeConfiguration<FileSystemFile>
 {
-    public class FileSystemFileConfiguration : IEntityTypeConfiguration<FileSystemFile>
+    public void Configure(EntityTypeBuilder<FileSystemFile> builder)
     {
-        public void Configure(EntityTypeBuilder<FileSystemFile> builder)
-        {
-            builder
-                .HasIndex(p => p.Path)
-                .IsUnique();
-        }
+        builder
+            .OwnsOne<PathInfo>(p => p.PathInfo);
     }
 }
